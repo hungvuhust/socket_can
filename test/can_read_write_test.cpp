@@ -22,9 +22,9 @@ void signal_handler(int signal) {
 class CanReadWriteTest {
 private:
   std::unique_ptr<EpollEventLoop> event_loop_reader_;
-  std::unique_ptr<EpollEventLoop> event_loop_writer_;
+  //   std::unique_ptr<EpollEventLoop> event_loop_writer_;
   SocketCanIntf                   reader_socket_;
-  SocketCanIntf                   writer_socket_;
+  //   SocketCanIntf                   writer_socket_;
 
   std::atomic<int>                      received_count_;
   std::atomic<int>                      sent_count_;
@@ -64,18 +64,19 @@ public:
     }
 
     // Khởi tạo writer (với dummy callback)
-    event_loop_writer_ = std::make_unique<EpollEventLoop>();
-    bool writer_ok     = writer_socket_.init(interface,
-                                         event_loop_writer_.get(),
-                                         [](const can_frame& frame) {
-                                           // Dummy callback for writer - không
-                                           // cần xử lý
-                                         });
+    // event_loop_writer_ = std::make_unique<EpollEventLoop>();
+    // bool writer_ok     = writer_socket_.init(interface,
+    //                                      event_loop_writer_.get(),
+    //                                      [](const can_frame& frame) {
+    //                                        // Dummy callback for writer -
+    //                                        không
+    //                                        // cần xử lý
+    //                                      });
 
-    if (!writer_ok) {
-      std::cerr << "❌ Failed to initialize writer socket" << std::endl;
-      return false;
-    }
+    // if (!writer_ok) {
+    //   std::cerr << "❌ Failed to initialize writer socket" << std::endl;
+    //   return false;
+    // }
 
     std::cout << "✅ Both reader and writer initialized successfully"
               << std::endl;
@@ -159,7 +160,7 @@ public:
       }
     }
 
-    bool success = writer_socket_.send_can_frame(frame);
+    bool success = reader_socket_.send_can_frame(frame);
     if (success) {
       sent_count_++;
 
@@ -278,7 +279,7 @@ public:
 
   void cleanup() {
     reader_socket_.deinit();
-    writer_socket_.deinit();
+    // writer_socket_.deinit();
   }
 
   void print_statistics() {
