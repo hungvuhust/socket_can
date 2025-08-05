@@ -28,7 +28,7 @@ Thư viện SocketCAN là một thư viện C++ đơn giản và hiệu quả đ
 
 ```bash
 # Clone repository (nếu chưa có)
-git clone <repository-url>
+git clone https://github.com/hungvuhust/socket_can
 cd socket_can
 
 # Tạo thư mục build
